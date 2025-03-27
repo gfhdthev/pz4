@@ -21,22 +21,20 @@ def sec():
 
 
 def logging(func):
-    def wrapper():
-        func()
-        func_name = func.__name__
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        func_name = func.__name__#берем имя функции
         #создаем таблицу
-        if os.path.isfile('name.csv'):
+        if os.path.isfile('name.csv'):#проверяем, существует ли файл
             file_df = pd.read_csv('name.csv')
             data = {'': [len(file_df)], "Пользователь": [user], "Действие": [func_name],"Дата": [now_time()],"Время":[sec()]} #создаем столбцы
             df = pd.DataFrame(data) #создаем сам датафрейм
-            #df.loc[len(df)] = [user,func_name,now_time(),sec()] #задаем значения, которые надо вывести в строку
             df.to_csv('name.csv', mode='a', index=False, header=False)
         else:
             data = {"Пользователь": [user], "Действие": [func_name],"Дата": [now_time()],"Время":[sec()]} #создаем столбцы
             df = pd.DataFrame(data) #создаем сам датафрейм
-            #df.loc[len(df)] = [user,func_name,now_time(),sec()] #задаем значения, которые надо вывести в строку
             df.to_csv('name.csv')
-        return df
+        return result
     return wrapper
 
 @logging
