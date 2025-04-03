@@ -36,13 +36,3 @@ def logging(func):
             df.to_csv('name.csv')
         return result
     return wrapper
-
-@logging
-def hello():
-    print('Hello')
-hello()
-
-@logging
-def bye():
-    print('bye')
-bye()
